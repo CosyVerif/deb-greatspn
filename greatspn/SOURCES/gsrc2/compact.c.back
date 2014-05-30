@@ -1,0 +1,237 @@
+/*
+ *  Torino, September 3, 1987
+ *  program: compact.c
+ *  purpose: Utilities for compact storage of 3-byte unsigned integers.
+ *  programmer: Giovanni Chiola
+ *  notes: the maximum number that can be encoded is 2**22 - 1
+ */
+
+#include <stdio.h>
+
+
+/*
+#define DEBUG
+*/
+
+#ifdef DEBUG
+
+#define DEBUGcalls
+/*
+*/
+
+/*
+*/
+#define DEBUGstore_compact
+
+#define DEBUGload_compact
+/*
+*/
+
+#endif
+
+
+store_compact( nval, fp )
+long nval;
+FILE * fp;
+    {
+      register unsigned char cc;
+      register unsigned long uval;
+
+#ifdef DEBUGcalls
+    fprintf(stderr,"        Start of store_compact %d\n", nval);
+#endif
+      if ( nval < 0 ) {
+          cc = 128;
+	  uval = -nval;
+        }
+      else {
+          cc = 0;
+	  uval = nval;
+        }
+      if ( uval < 64 ) {
+	  cc |= (unsigned char)( 0x3F & uval);
+#ifdef DEBUGstore_compact
+    fprintf(stderr,"          code 1 uval=%d, cc=%d\n", uval, (unsigned)cc );
+#endif
+	  putc(cc, fp);
+	}
+      else if ( uval < 8192 ) {
+#ifdef DEBUGstore_compact
+    fprintf(stderr,"          code 2 " );
+#endif
+	  cc |= (unsigned char)(0x40);
+	  cc |= ((0x1F00 & uval)>>8);
+#ifdef DEBUGstore_compact
+    fprintf(stderr,"cc1=%d ", (unsigned)cc );
+#endif
+	  putc(cc, fp);
+	  cc = (unsigned char)(0xFF & uval);
+#ifdef DEBUGstore_compact
+    fprintf(stderr,"cc2=%d\n", (unsigned)cc );
+#endif
+	  putc(cc, fp);
+	}
+      else if ( uval < 1048576 ) {
+#ifdef DEBUGstore_compact
+    fprintf(stderr,"          code 3\n" );
+#endif
+	  cc |= (unsigned char)(0x60);
+	  cc |= ((0x0F0000 & nval)>>16);
+	  putc(cc, fp);
+	  cc = (unsigned char)((0xFF00 & nval)>>8);
+	  putc(cc, fp);
+	  cc = (unsigned char)(0xFF & nval);
+	  putc(cc, fp);
+	}
+      else if ( uval < 134217728 ) {
+#ifdef DEBUGstore_compact
+    fprintf(stderr,"          code 4\n" );
+#endif
+	  cc |= (unsigned char)(0x70);
+	  cc |= ((0x07000000 & nval)>>24);
+	  putc(cc, fp);
+	  cc = ((0xFF0000 & nval)>>16);
+	  putc(cc, fp);
+	  cc = (unsigned char)((0xFF00 & nval)>>8);
+	  putc(cc, fp);
+	  cc = (unsigned char)(0xFF & nval);
+	  putc(cc, fp);
+	}
+      else {
+#ifdef DEBUGstore_compact
+    fprintf(stderr,"          code 5\n" );
+#endif
+	  cc |= (unsigned char)(0x78);
+	  putc(cc, fp);
+	  cc = ((0xFF000000 & nval)>>24);
+	  putc(cc, fp);
+	  cc = ((0xFF0000 & nval)>>16);
+	  putc(cc, fp);
+	  cc = (unsigned char)((0xFF00 & nval)>>8);
+	  putc(cc, fp);
+	  cc = (unsigned char)(0xFF & nval);
+	  putc(cc, fp);
+	}
+#ifdef DEBUGcalls
+    fprintf(stderr,"        End of store_compact %d\n", nval);
+#endif
+}
+
+
+load_compact( pp, fp )
+long * pp;
+FILE * fp;
+    {
+    register unsigned char cc = getc(fp);
+    register long lc = (cc & 0x7F);
+    int negative = (cc & 0x80);
+
+#ifdef DEBUGcalls
+    fprintf(stderr,"        Start of load_compact cc=%d, lc=%ld\n",
+                   (unsigned)cc, lc );
+#endif
+    if ( 0x40 & lc ) {
+        if ( 0x20 & lc ) {
+            if ( 0x10 & lc ) {
+                if ( 0x08 & lc ) {
+                  register unsigned long uu = getc(fp);
+#ifdef DEBUGload_compact
+    fprintf(stderr,"          coding 5\n");
+#endif
+	            uu = uu<<8;
+	            cc = getc(fp);
+	            uu += cc;
+	            uu = uu<<8;
+	            cc = getc(fp);
+	            uu += cc;
+	            uu = uu<<8;
+	            cc = getc(fp);
+	            uu += cc;
+	            if ( negative )
+	                *pp = -uu;
+	            else
+	                *pp = uu;
+	          }
+	        else {
+                  register unsigned long uu = (lc & 0x07)<<8;
+#ifdef DEBUGload_compact
+    fprintf(stderr,"          coding 4\n");
+#endif
+	            cc = getc(fp);
+	            uu += cc;
+	            uu = uu<<8;
+	            cc = getc(fp);
+	            uu += cc;
+	            uu = uu<<8;
+	            cc = getc(fp);
+	            uu += cc;
+	            if ( negative )
+	                *pp = -uu;
+	            else
+	                *pp = uu;
+	          }
+	      }
+	    else {
+              register unsigned long uu = (lc & 0x0F)<<8;
+#ifdef DEBUGload_compact
+    fprintf(stderr,"          coding 3\n");
+#endif
+	        cc = getc(fp);
+	        uu += cc;
+	        uu = uu<<8;
+	        cc = getc(fp);
+	        uu += cc;
+	        if ( negative )
+	            *pp = -uu;
+	        else
+	            *pp = uu;
+	      }
+	  }
+	else {
+          register unsigned long uu = (lc & 0x1F)<<8;
+#ifdef DEBUGload_compact
+    fprintf(stderr,"          coding 2\n");
+#endif
+	    cc = getc(fp);
+#ifdef DEBUGload_compact
+    fprintf(stderr,"            cc2=%d\n", (unsigned)cc);
+#endif
+	    uu += cc;
+	    if ( negative )
+	        *pp = -uu;
+	    else
+	        *pp = uu;
+	  }
+      }
+    else {
+#ifdef DEBUGload_compact
+    fprintf(stderr,"          coding 1\n");
+#endif
+	if ( negative )
+	    *pp = -lc;
+	else
+	    *pp = lc;
+      }
+#ifdef DEBUGcalls
+    fprintf(stderr,"        End of load_compact val=%d\n", *pp);
+#endif
+}
+
+store_double( dval, fp )
+unsigned char * dval;
+FILE * fp;
+    { register unsigned i = sizeof(double);
+
+    for ( ; i-- ; dval++ )
+	putc(*dval, fp);
+}
+
+load_double( dval, fp )
+unsigned char * dval;
+FILE * fp;
+    { register unsigned i = sizeof(double);
+
+    for ( ; i-- ; dval++ )
+	*dval = getc(fp);
+}
+

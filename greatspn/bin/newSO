@@ -1,0 +1,58 @@
+#!/bin/sh
+. great_package.sh
+
+if [ ! -f $1.epd ]
+then
+	$GSPN2HOME/newMT $1 
+	GSPN2STATUS=$?
+	if [ $GSPN2STATUS -ne 0 ]
+	then
+		exit $GSPN2STATUS
+	fi
+fi
+
+echo ""
+echo "Start Steady-State solution"
+
+time $GSPN2HOME2/2bin/ggsc $1 -e0.00001 -i3000 $2 $3 > .gspn_out 2>&1
+if [ $? -ne 0 ]
+then
+	exit 12 
+fi
+cat .gspn_out
+rm -f .gspn_out > /dev/null 2>&1
+
+echo ggsc
+
+/bin/cp $1.epd $1.mpd
+if [ $? -ne 0 ]
+then
+	exit 31 
+fi
+
+echo gst_prep prima $1
+$GSPN2HOME2/2bin/gst_prep $1
+GSPN2STATUS=$?
+echo gst_prep
+if [ $GSPN2STATUS -ne 0 ]
+then
+	exit 13
+fi
+
+$GSPN2HOME2/2bin/gst_stndrd $1 > $1.sta
+GSPN2STATUS=$?
+echo gst_stndrd
+if [ $GSPN2STATUS -ne 0 ]
+then
+	exit 14
+fi
+
+$GSPN2HOME2/2bin/throughput $1 >> $1.sta
+GSPN2STATUS=$?
+echo throughput
+if [ $GSPN2STATUS -ne 0 ]
+then
+	exit 15 
+fi
+
+exit 0
