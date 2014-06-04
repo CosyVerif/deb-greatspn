@@ -1,0 +1,12 @@
+language: bash
+
+before_install:
+  - sudo apt-get install dh-make devscripts debhelper build-essential
+  - sudo apt-get install autoconf automake make gcc g++ byacc bison flex libglib2.0-dev tcsh ed pkg-config libboost-dev python-dev
+  - sudo update-alternatives --set yacc /usr/bin/byacc
+
+script:
+  - bash build_deb_scripts/build_deb.sh
+
+after_install:
+  - sudo update-alternatives --set yacc /usr/bin/bison.yacc
