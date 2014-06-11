@@ -1,7 +1,7 @@
 language: bash
 
 before_install:
-  - sudo apt-get install dh-make devscripts debhelper build-essential
+  - sudo apt-get install dh-make devscripts debhelper build-essential perl sed
   - sudo apt-get install autoconf automake make gcc g++ byacc bison flex libglib2.0-dev tcsh ed pkg-config libboost-dev python-dev
   - sudo update-alternatives --set yacc /usr/bin/byacc
 
