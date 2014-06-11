@@ -1,5 +1,0 @@
-g/yylex/s//read_DEF_file/g
-g/yy/s//zz/g
-g/zzwrap/s//yywrap/g
-w
-q

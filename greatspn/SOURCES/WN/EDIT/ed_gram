@@ -1,4 +1,0 @@
-g/yyparse/s//parser/g
-g/yylex/s//jjlex/g
-w
-q

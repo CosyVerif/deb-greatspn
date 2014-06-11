@@ -1,9 +1,0 @@
-#!/bin/sh
-. great_package.sh
-
-$GSPN2HOME2/2bin/showprob $1
-if [ $? -ne 0 ]
-then
-	 echo "Solution failed in module show_prob"
-fi
-exit 0
