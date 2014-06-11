@@ -1,0 +1,54 @@
+#!/bin/sh
+. great_package.sh
+############ GreatSPN2.0 ######################
+#
+# set net=$3/nets/$1
+net=$1
+
+if [ ! -f $1.epd ]
+then
+	$GSPN2HOME/newMT $1 $3
+	GSPN2STATUS=$?
+	if [ $GSPN2STATUS -ne 0 ]
+	then
+		exit $GSPN2STATUS
+	fi
+fi
+
+echo ""
+echo "Start Transient solution"
+time $GSPN2HOME2/2bin/ntrs $net $2 -e0.000001 > .gspn_out 2>&1
+if [ $? -ne 0 ]
+then
+	exit 16 
+fi
+cat .gspn_out
+rm -f .gspn_out > /dev/null 2>&1
+
+echo ntrs
+
+/bin/cp $net.epd $net.mpd
+if [ $? -ne 0 ]
+then
+	exit 31 
+fi
+
+$GSPN2HOME2/2bin/gst_prep $net
+if [ $? -ne 0 ]
+then
+	exit 13 
+fi
+
+$GSPN2HOME2/2bin/gst_stndrd $net > $net.sta
+if [ $? -ne 0 ]
+then
+	exit 14 
+fi
+
+$GSPN2HOME2/2bin/throughput $net >> $net.sta
+if [ $? -ne 0 ]
+then
+	exit 15 
+fi
+
+exit 0

@@ -1,0 +1,52 @@
+Build Requirements
+==================
+
+To build the package from sources, you need:
+
+- gcc (my version is 3.3.4)
+- lex
+- yacc
+- `make' program.
+
+
+Installation
+==================
+
+To build and install the package  from sources, you enter four
+commands:
+
+	$ gunzip SWN2GSPNxxx.tar.gz
+	$ tar xvf SWN2GSPNxxx.tar
+	$ cd SWN2GSPN
+	$ ./configure
+	$ make	
+
+If all works, this creates file 'swn-translator'
+
+
+Usage
+==================
+
+Usage: swn-translator [option...] net
+Where 'net' is name of net to be translated (without .net or .def )
+  and 'option' may be:
+  -h, --help            this usage
+  -u, --usage           this usage
+  -v, --version         show version and exit
+  -un, --unf_net=VAL    unfolded net name (default 'net'_unf)
+  -tidx, --tr_idxt=VAL   (default `net'_unf.idx)
+  -otd, --otd=VAL       transition displacement (default `0')
+  -vtd, --vtd=VAL       vertical transition displacement (default `0')
+  -opd, --opd=VAL       oriplace displacement (default `0')
+  -vpd, --vpd=VAL       vertical place displacement (default `0')
+
+
+Bug
+==============
+
+Translator doesn't work with:
+
+- dynamic subclasses definition
+- short marking definition 'S', it work with marking definition '<S>' 
+
+If you encounter problem, please send me a bug report at <dvdc@libero.it>.

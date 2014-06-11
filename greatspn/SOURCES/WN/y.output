@@ -1,0 +1,2697 @@
+   0  $accept : grammar $end
+
+   1  grammar : MA marking
+   2          | DSC dynamic_subclass
+   3          | CO colors
+   4          | FU function
+   5          | MD mdrate
+   6          | PD placedom
+   7          | TD transdom
+
+   8  $$1 :
+
+   9  mdrate : condlist EVER COLON $$1 kexpression SEMICOLON
+
+  10  $$2 :
+
+  11  mdrate : EVER COLON $$2 kexpression SEMICOLON
+
+  12  $$3 :
+
+  13  $$4 :
+
+  14  condlist : condlist WHEN $$3 OBRCK pred $$4 CBRCK COLON kexpression SEMICOLON
+
+  15  $$5 :
+
+  16  $$6 :
+
+  17  condlist : WHEN $$5 OBRCK pred $$6 CBRCK COLON kexpression SEMICOLON
+
+  18  kexpression : kexpression plusop vterm
+  19              | vterm
+
+  20  vterm : vterm mulop vfatt
+  21        | vfatt
+
+  22  vfatt : INV OPAR kexpression CPAR
+  23        | SQRT OPAR kexpression CPAR
+  24        | POW OPAR kexpression COMMA kexpression CPAR
+  25        | FACT OPAR kexpression CPAR
+  26        | COMB OPAR kexpression COMMA kexpression CPAR
+  27        | OPAR kexpression CPAR
+  28        | REALNUM
+  29        | NUM
+  30        | STRING
+
+  31  $$7 :
+
+  32  $$8 :
+
+  33  vfatt : VBAR STRING $$7 POINT STRING $$8 VBAR
+  34        | VBAR STRING VBAR
+  35        | MAXT OPAR kexpression COMMA kexpression CPAR
+  36        | MINT OPAR kexpression COMMA kexpression CPAR
+  37        | DIESIS STRING
+
+  38  plusop : PLUS
+  39         | MINUS
+
+  40  mulop : MOLT
+  41        | DIV
+
+  42  $$9 :
+
+  43  $$10 :
+
+  44  colors : $$9 prefix $$10 namelist
+
+  45  $$11 :
+
+  46  colors : $$11 static
+
+  47  namelist : namelist COMMA STRING
+  48           | STRING
+
+  49  $$12 :
+
+  50  static : $$12 OBRCS objects CBRCS
+
+  51  $$13 :
+
+  52  $$14 :
+
+  53  static : STRING $$13 OBRCS NUM $$14 MINUS NUM CBRCS
+
+  54  objects : objects COMMA STRING
+  55          | STRING
+
+  56  prefix : O
+  57         | US
+
+  58  placedom : placedom COMMA STRING
+  59           | STRING
+
+  60  $$15 :
+
+  61  $$16 :
+
+  62  transdom : OBRCK $$15 pred $$16 CBRCK opzRESET
+  63           | DIESIS
+  64           |
+
+  65  opzRESET : DIESIS
+  66           |
+
+  67  $$17 :
+
+  68  $$18 :
+
+  69  dynamic_subclass : $$17 OPAR STRING $$18 COLON coefficient_type CPAR
+
+  70  marking : objmark
+  71          | shortmark
+
+  72  objmark : coefficient LT oblist GT
+  73          | objmark plusop coefficient LT oblist GT
+
+  74  $$19 :
+
+  75  oblist : oblist COMMA $$19 obj
+
+  76  $$20 :
+
+  77  oblist : $$20 obj
+
+  78  obj : STRING
+  79      | S
+  80      | S NUM
+  81      | S STRING
+
+  82  shortmark : coefficient S
+
+  83  function : funlist
+  84           | coefficient S
+
+  85  $$21 :
+
+  86  funlist : coefficient $$21 opzguard LT funzseq GT
+
+  87  $$22 :
+
+  88  $$23 :
+
+  89  funlist : funlist plusop $$22 coefficient $$23 opzguard LT funzseq GT
+
+  90  $$24 :
+
+  91  $$25 :
+
+  92  opzguard : OBRCK $$24 pred $$25 CBRCK
+  93           |
+
+  94  $$26 :
+
+  95  funzseq : $$26 kernel
+
+  96  $$27 :
+
+  97  funzseq : funzseq COMMA $$27 kernel
+
+  98  kernel : term
+  99         | kernel plusop term
+
+ 100  term : sterm
+ 101       | nterm
+ 102       | CARET coefficient STRING
+ 103       | xterm
+
+ 104  sterm : coefficient S NUM
+ 105        | coefficient S STRING
+ 106        | coefficient S
+
+ 107  nterm : coefficient ESCL STRING
+
+ 108  xterm : coefficient STRING
+
+ 109  coefficient : coefficient_type
+ 110              |
+
+ 111  coefficient_type : NUM
+ 112                   | UNDERSCORE STRING
+
+ 113  $$28 :
+
+ 114  $$29 :
+
+ 115  coefficient_type : VBAR STRING $$28 POINT STRING $$29 VBAR
+ 116                   | VBAR STRING VBAR
+
+ 117  pred : pred OR pterm
+ 118       | pterm
+
+ 119  pterm : pterm AND pfatt
+ 120        | pfatt
+
+ 121  pfatt : OPAR pred CPAR
+ 122        | predop relop predop
+
+ 123  relop : EQ
+ 124        | NE
+ 125        | LT
+ 126        | LE
+ 127        | GT
+ 128        | GE
+
+ 129  predop : NUM
+ 130         | STRING
+ 131         | D OPAR STRING CPAR
+ 132         | ESCL STRING
+ 133         | CARET STRING
+
+ 134  $$30 :
+
+ 135  predop : DISTANCE OPAR STRING $$30 COMMA STRING CPAR
+
+state 0
+	$accept : . grammar $end  (0)
+
+	DSC  shift 1
+	CO  shift 2
+	MA  shift 3
+	FU  shift 4
+	MD  shift 5
+	PD  shift 6
+	TD  shift 7
+	.  error
+
+	grammar  goto 8
+
+
+state 1
+	grammar : DSC . dynamic_subclass  (2)
+	$$17 : .  (67)
+
+	.  reduce 67
+
+	dynamic_subclass  goto 9
+	$$17  goto 10
+
+
+state 2
+	grammar : CO . colors  (3)
+	$$9 : .  (42)
+	$$11 : .  (45)
+
+	O  reduce 42
+	US  reduce 42
+	OBRCS  reduce 45
+	STRING  reduce 45
+
+	colors  goto 11
+	$$9  goto 12
+	$$11  goto 13
+
+
+state 3
+	grammar : MA . marking  (1)
+	coefficient : .  (110)
+
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	S  reduce 110
+	LT  reduce 110
+
+	marking  goto 17
+	coefficient_type  goto 18
+	objmark  goto 19
+	shortmark  goto 20
+	coefficient  goto 21
+
+
+state 4
+	grammar : FU . function  (4)
+	coefficient : .  (110)
+
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	S  reduce 110
+	OBRCK  reduce 110
+	LT  reduce 110
+
+	function  goto 22
+	coefficient_type  goto 18
+	coefficient  goto 23
+	funlist  goto 24
+
+
+state 5
+	grammar : MD . mdrate  (5)
+
+	WHEN  shift 25
+	EVER  shift 26
+	.  error
+
+	mdrate  goto 27
+	condlist  goto 28
+
+
+state 6
+	grammar : PD . placedom  (6)
+
+	STRING  shift 29
+	.  error
+
+	placedom  goto 30
+
+
+state 7
+	grammar : TD . transdom  (7)
+	transdom : .  (64)
+
+	OBRCK  shift 31
+	DIESIS  shift 32
+	$end  reduce 64
+
+	transdom  goto 33
+
+
+state 8
+	$accept : grammar . $end  (0)
+
+	$end  accept
+
+
+state 9
+	grammar : DSC dynamic_subclass .  (2)
+
+	.  reduce 2
+
+
+state 10
+	dynamic_subclass : $$17 . OPAR STRING $$18 COLON coefficient_type CPAR  (69)
+
+	OPAR  shift 34
+	.  error
+
+
+state 11
+	grammar : CO colors .  (3)
+
+	.  reduce 3
+
+
+state 12
+	colors : $$9 . prefix $$10 namelist  (44)
+
+	O  shift 35
+	US  shift 36
+	.  error
+
+	prefix  goto 37
+
+
+state 13
+	colors : $$11 . static  (46)
+	$$12 : .  (49)
+
+	STRING  shift 38
+	OBRCS  reduce 49
+
+	static  goto 39
+	$$12  goto 40
+
+
+state 14
+	coefficient_type : VBAR . STRING $$28 POINT STRING $$29 VBAR  (115)
+	coefficient_type : VBAR . STRING VBAR  (116)
+
+	STRING  shift 41
+	.  error
+
+
+state 15
+	coefficient_type : NUM .  (111)
+
+	.  reduce 111
+
+
+state 16
+	coefficient_type : UNDERSCORE . STRING  (112)
+
+	STRING  shift 42
+	.  error
+
+
+state 17
+	grammar : MA marking .  (1)
+
+	.  reduce 1
+
+
+state 18
+	coefficient : coefficient_type .  (109)
+
+	.  reduce 109
+
+
+state 19
+	marking : objmark .  (70)
+	objmark : objmark . plusop coefficient LT oblist GT  (73)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	$end  reduce 70
+
+	plusop  goto 45
+
+
+state 20
+	marking : shortmark .  (71)
+
+	.  reduce 71
+
+
+state 21
+	objmark : coefficient . LT oblist GT  (72)
+	shortmark : coefficient . S  (82)
+
+	S  shift 46
+	LT  shift 47
+	.  error
+
+
+state 22
+	grammar : FU function .  (4)
+
+	.  reduce 4
+
+
+state 23
+	function : coefficient . S  (84)
+	funlist : coefficient . $$21 opzguard LT funzseq GT  (86)
+	$$21 : .  (85)
+
+	S  shift 48
+	OBRCK  reduce 85
+	LT  reduce 85
+
+	$$21  goto 49
+
+
+state 24
+	function : funlist .  (83)
+	funlist : funlist . plusop $$22 coefficient $$23 opzguard LT funzseq GT  (89)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	$end  reduce 83
+
+	plusop  goto 50
+
+
+state 25
+	condlist : WHEN . $$5 OBRCK pred $$6 CBRCK COLON kexpression SEMICOLON  (17)
+	$$5 : .  (15)
+
+	.  reduce 15
+
+	$$5  goto 51
+
+
+state 26
+	mdrate : EVER . COLON $$2 kexpression SEMICOLON  (11)
+
+	COLON  shift 52
+	.  error
+
+
+state 27
+	grammar : MD mdrate .  (5)
+
+	.  reduce 5
+
+
+state 28
+	mdrate : condlist . EVER COLON $$1 kexpression SEMICOLON  (9)
+	condlist : condlist . WHEN $$3 OBRCK pred $$4 CBRCK COLON kexpression SEMICOLON  (14)
+
+	WHEN  shift 53
+	EVER  shift 54
+	.  error
+
+
+state 29
+	placedom : STRING .  (59)
+
+	.  reduce 59
+
+
+state 30
+	grammar : PD placedom .  (6)
+	placedom : placedom . COMMA STRING  (58)
+
+	COMMA  shift 55
+	$end  reduce 6
+
+
+state 31
+	transdom : OBRCK . $$15 pred $$16 CBRCK opzRESET  (62)
+	$$15 : .  (60)
+
+	.  reduce 60
+
+	$$15  goto 56
+
+
+state 32
+	transdom : DIESIS .  (63)
+
+	.  reduce 63
+
+
+state 33
+	grammar : TD transdom .  (7)
+
+	.  reduce 7
+
+
+state 34
+	dynamic_subclass : $$17 OPAR . STRING $$18 COLON coefficient_type CPAR  (69)
+
+	STRING  shift 57
+	.  error
+
+
+state 35
+	prefix : O .  (56)
+
+	.  reduce 56
+
+
+state 36
+	prefix : US .  (57)
+
+	.  reduce 57
+
+
+state 37
+	colors : $$9 prefix . $$10 namelist  (44)
+	$$10 : .  (43)
+
+	.  reduce 43
+
+	$$10  goto 58
+
+
+state 38
+	static : STRING . $$13 OBRCS NUM $$14 MINUS NUM CBRCS  (53)
+	$$13 : .  (51)
+
+	.  reduce 51
+
+	$$13  goto 59
+
+
+state 39
+	colors : $$11 static .  (46)
+
+	.  reduce 46
+
+
+state 40
+	static : $$12 . OBRCS objects CBRCS  (50)
+
+	OBRCS  shift 60
+	.  error
+
+
+state 41
+	coefficient_type : VBAR STRING . $$28 POINT STRING $$29 VBAR  (115)
+	coefficient_type : VBAR STRING . VBAR  (116)
+	$$28 : .  (113)
+
+	VBAR  shift 61
+	POINT  reduce 113
+
+	$$28  goto 62
+
+
+state 42
+	coefficient_type : UNDERSCORE STRING .  (112)
+
+	.  reduce 112
+
+
+state 43
+	plusop : MINUS .  (39)
+
+	.  reduce 39
+
+
+state 44
+	plusop : PLUS .  (38)
+
+	.  reduce 38
+
+
+state 45
+	objmark : objmark plusop . coefficient LT oblist GT  (73)
+	coefficient : .  (110)
+
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	LT  reduce 110
+
+	coefficient_type  goto 18
+	coefficient  goto 63
+
+
+state 46
+	shortmark : coefficient S .  (82)
+
+	.  reduce 82
+
+
+state 47
+	objmark : coefficient LT . oblist GT  (72)
+	$$20 : .  (76)
+
+	.  reduce 76
+
+	oblist  goto 64
+	$$20  goto 65
+
+
+state 48
+	function : coefficient S .  (84)
+
+	.  reduce 84
+
+
+state 49
+	funlist : coefficient $$21 . opzguard LT funzseq GT  (86)
+	opzguard : .  (93)
+
+	OBRCK  shift 66
+	LT  reduce 93
+
+	opzguard  goto 67
+
+
+state 50
+	funlist : funlist plusop . $$22 coefficient $$23 opzguard LT funzseq GT  (89)
+	$$22 : .  (87)
+
+	.  reduce 87
+
+	$$22  goto 68
+
+
+state 51
+	condlist : WHEN $$5 . OBRCK pred $$6 CBRCK COLON kexpression SEMICOLON  (17)
+
+	OBRCK  shift 69
+	.  error
+
+
+state 52
+	mdrate : EVER COLON . $$2 kexpression SEMICOLON  (11)
+	$$2 : .  (10)
+
+	.  reduce 10
+
+	$$2  goto 70
+
+
+state 53
+	condlist : condlist WHEN . $$3 OBRCK pred $$4 CBRCK COLON kexpression SEMICOLON  (14)
+	$$3 : .  (12)
+
+	.  reduce 12
+
+	$$3  goto 71
+
+
+state 54
+	mdrate : condlist EVER . COLON $$1 kexpression SEMICOLON  (9)
+
+	COLON  shift 72
+	.  error
+
+
+state 55
+	placedom : placedom COMMA . STRING  (58)
+
+	STRING  shift 73
+	.  error
+
+
+state 56
+	transdom : OBRCK $$15 . pred $$16 CBRCK opzRESET  (62)
+
+	CARET  shift 74
+	D  shift 75
+	ESCL  shift 76
+	DISTANCE  shift 77
+	NUM  shift 78
+	STRING  shift 79
+	OPAR  shift 80
+	.  error
+
+	pred  goto 81
+	pterm  goto 82
+	pfatt  goto 83
+	predop  goto 84
+
+
+state 57
+	dynamic_subclass : $$17 OPAR STRING . $$18 COLON coefficient_type CPAR  (69)
+	$$18 : .  (68)
+
+	.  reduce 68
+
+	$$18  goto 85
+
+
+state 58
+	colors : $$9 prefix $$10 . namelist  (44)
+
+	STRING  shift 86
+	.  error
+
+	namelist  goto 87
+
+
+state 59
+	static : STRING $$13 . OBRCS NUM $$14 MINUS NUM CBRCS  (53)
+
+	OBRCS  shift 88
+	.  error
+
+
+state 60
+	static : $$12 OBRCS . objects CBRCS  (50)
+
+	STRING  shift 89
+	.  error
+
+	objects  goto 90
+
+
+state 61
+	coefficient_type : VBAR STRING VBAR .  (116)
+
+	.  reduce 116
+
+
+state 62
+	coefficient_type : VBAR STRING $$28 . POINT STRING $$29 VBAR  (115)
+
+	POINT  shift 91
+	.  error
+
+
+state 63
+	objmark : objmark plusop coefficient . LT oblist GT  (73)
+
+	LT  shift 92
+	.  error
+
+
+state 64
+	objmark : coefficient LT oblist . GT  (72)
+	oblist : oblist . COMMA $$19 obj  (75)
+
+	COMMA  shift 93
+	GT  shift 94
+	.  error
+
+
+state 65
+	oblist : $$20 . obj  (77)
+
+	S  shift 95
+	STRING  shift 96
+	.  error
+
+	obj  goto 97
+
+
+state 66
+	opzguard : OBRCK . $$24 pred $$25 CBRCK  (92)
+	$$24 : .  (90)
+
+	.  reduce 90
+
+	$$24  goto 98
+
+
+state 67
+	funlist : coefficient $$21 opzguard . LT funzseq GT  (86)
+
+	LT  shift 99
+	.  error
+
+
+state 68
+	funlist : funlist plusop $$22 . coefficient $$23 opzguard LT funzseq GT  (89)
+	coefficient : .  (110)
+
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	OBRCK  reduce 110
+	LT  reduce 110
+
+	coefficient_type  goto 18
+	coefficient  goto 100
+
+
+state 69
+	condlist : WHEN $$5 OBRCK . pred $$6 CBRCK COLON kexpression SEMICOLON  (17)
+
+	CARET  shift 74
+	D  shift 75
+	ESCL  shift 76
+	DISTANCE  shift 77
+	NUM  shift 78
+	STRING  shift 79
+	OPAR  shift 80
+	.  error
+
+	pred  goto 101
+	pterm  goto 82
+	pfatt  goto 83
+	predop  goto 84
+
+
+state 70
+	mdrate : EVER COLON $$2 . kexpression SEMICOLON  (11)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 115
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 71
+	condlist : condlist WHEN $$3 . OBRCK pred $$4 CBRCK COLON kexpression SEMICOLON  (14)
+
+	OBRCK  shift 118
+	.  error
+
+
+state 72
+	mdrate : condlist EVER COLON . $$1 kexpression SEMICOLON  (9)
+	$$1 : .  (8)
+
+	.  reduce 8
+
+	$$1  goto 119
+
+
+state 73
+	placedom : placedom COMMA STRING .  (58)
+
+	.  reduce 58
+
+
+state 74
+	predop : CARET . STRING  (133)
+
+	STRING  shift 120
+	.  error
+
+
+state 75
+	predop : D . OPAR STRING CPAR  (131)
+
+	OPAR  shift 121
+	.  error
+
+
+state 76
+	predop : ESCL . STRING  (132)
+
+	STRING  shift 122
+	.  error
+
+
+state 77
+	predop : DISTANCE . OPAR STRING $$30 COMMA STRING CPAR  (135)
+
+	OPAR  shift 123
+	.  error
+
+
+state 78
+	predop : NUM .  (129)
+
+	.  reduce 129
+
+
+state 79
+	predop : STRING .  (130)
+
+	.  reduce 130
+
+
+state 80
+	pfatt : OPAR . pred CPAR  (121)
+
+	CARET  shift 74
+	D  shift 75
+	ESCL  shift 76
+	DISTANCE  shift 77
+	NUM  shift 78
+	STRING  shift 79
+	OPAR  shift 80
+	.  error
+
+	pred  goto 124
+	pterm  goto 82
+	pfatt  goto 83
+	predop  goto 84
+
+
+state 81
+	transdom : OBRCK $$15 pred . $$16 CBRCK opzRESET  (62)
+	pred : pred . OR pterm  (117)
+	$$16 : .  (61)
+
+	OR  shift 125
+	CBRCK  reduce 61
+
+	$$16  goto 126
+
+
+state 82
+	pred : pterm .  (118)
+	pterm : pterm . AND pfatt  (119)
+
+	AND  shift 127
+	CBRCK  reduce 118
+	CPAR  reduce 118
+	OR  reduce 118
+
+
+state 83
+	pterm : pfatt .  (120)
+
+	.  reduce 120
+
+
+state 84
+	pfatt : predop . relop predop  (122)
+
+	NE  shift 128
+	EQ  shift 129
+	LT  shift 130
+	GT  shift 131
+	LE  shift 132
+	GE  shift 133
+	.  error
+
+	relop  goto 134
+
+
+state 85
+	dynamic_subclass : $$17 OPAR STRING $$18 . COLON coefficient_type CPAR  (69)
+
+	COLON  shift 135
+	.  error
+
+
+state 86
+	namelist : STRING .  (48)
+
+	.  reduce 48
+
+
+state 87
+	colors : $$9 prefix $$10 namelist .  (44)
+	namelist : namelist . COMMA STRING  (47)
+
+	COMMA  shift 136
+	$end  reduce 44
+
+
+state 88
+	static : STRING $$13 OBRCS . NUM $$14 MINUS NUM CBRCS  (53)
+
+	NUM  shift 137
+	.  error
+
+
+state 89
+	objects : STRING .  (55)
+
+	.  reduce 55
+
+
+state 90
+	static : $$12 OBRCS objects . CBRCS  (50)
+	objects : objects . COMMA STRING  (54)
+
+	CBRCS  shift 138
+	COMMA  shift 139
+	.  error
+
+
+state 91
+	coefficient_type : VBAR STRING $$28 POINT . STRING $$29 VBAR  (115)
+
+	STRING  shift 140
+	.  error
+
+
+state 92
+	objmark : objmark plusop coefficient LT . oblist GT  (73)
+	$$20 : .  (76)
+
+	.  reduce 76
+
+	oblist  goto 141
+	$$20  goto 65
+
+
+state 93
+	oblist : oblist COMMA . $$19 obj  (75)
+	$$19 : .  (74)
+
+	.  reduce 74
+
+	$$19  goto 142
+
+
+state 94
+	objmark : coefficient LT oblist GT .  (72)
+
+	.  reduce 72
+
+
+state 95
+	obj : S .  (79)
+	obj : S . NUM  (80)
+	obj : S . STRING  (81)
+
+	NUM  shift 143
+	STRING  shift 144
+	COMMA  reduce 79
+	GT  reduce 79
+
+
+state 96
+	obj : STRING .  (78)
+
+	.  reduce 78
+
+
+state 97
+	oblist : $$20 obj .  (77)
+
+	.  reduce 77
+
+
+state 98
+	opzguard : OBRCK $$24 . pred $$25 CBRCK  (92)
+
+	CARET  shift 74
+	D  shift 75
+	ESCL  shift 76
+	DISTANCE  shift 77
+	NUM  shift 78
+	STRING  shift 79
+	OPAR  shift 80
+	.  error
+
+	pred  goto 145
+	pterm  goto 82
+	pfatt  goto 83
+	predop  goto 84
+
+
+state 99
+	funlist : coefficient $$21 opzguard LT . funzseq GT  (86)
+	$$26 : .  (94)
+
+	.  reduce 94
+
+	funzseq  goto 146
+	$$26  goto 147
+
+
+state 100
+	funlist : funlist plusop $$22 coefficient . $$23 opzguard LT funzseq GT  (89)
+	$$23 : .  (88)
+
+	.  reduce 88
+
+	$$23  goto 148
+
+
+state 101
+	condlist : WHEN $$5 OBRCK pred . $$6 CBRCK COLON kexpression SEMICOLON  (17)
+	pred : pred . OR pterm  (117)
+	$$6 : .  (16)
+
+	OR  shift 125
+	CBRCK  reduce 16
+
+	$$6  goto 149
+
+
+state 102
+	vfatt : VBAR . STRING $$7 POINT STRING $$8 VBAR  (33)
+	vfatt : VBAR . STRING VBAR  (34)
+
+	STRING  shift 150
+	.  error
+
+
+state 103
+	vfatt : NUM .  (29)
+
+	.  reduce 29
+
+
+state 104
+	vfatt : STRING .  (30)
+
+	.  reduce 30
+
+
+state 105
+	vfatt : OPAR . kexpression CPAR  (27)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 151
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 106
+	vfatt : MAXT . OPAR kexpression COMMA kexpression CPAR  (35)
+
+	OPAR  shift 152
+	.  error
+
+
+state 107
+	vfatt : MINT . OPAR kexpression COMMA kexpression CPAR  (36)
+
+	OPAR  shift 153
+	.  error
+
+
+state 108
+	vfatt : INV . OPAR kexpression CPAR  (22)
+
+	OPAR  shift 154
+	.  error
+
+
+state 109
+	vfatt : SQRT . OPAR kexpression CPAR  (23)
+
+	OPAR  shift 155
+	.  error
+
+
+state 110
+	vfatt : POW . OPAR kexpression COMMA kexpression CPAR  (24)
+
+	OPAR  shift 156
+	.  error
+
+
+state 111
+	vfatt : COMB . OPAR kexpression COMMA kexpression CPAR  (26)
+
+	OPAR  shift 157
+	.  error
+
+
+state 112
+	vfatt : FACT . OPAR kexpression CPAR  (25)
+
+	OPAR  shift 158
+	.  error
+
+
+state 113
+	vfatt : REALNUM .  (28)
+
+	.  reduce 28
+
+
+state 114
+	vfatt : DIESIS . STRING  (37)
+
+	STRING  shift 159
+	.  error
+
+
+state 115
+	mdrate : EVER COLON $$2 kexpression . SEMICOLON  (11)
+	kexpression : kexpression . plusop vterm  (18)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	SEMICOLON  shift 160
+	.  error
+
+	plusop  goto 161
+
+
+state 116
+	kexpression : vterm .  (19)
+	vterm : vterm . mulop vfatt  (20)
+
+	MOLT  shift 162
+	DIV  shift 163
+	MINUS  reduce 19
+	PLUS  reduce 19
+	COMMA  reduce 19
+	CPAR  reduce 19
+	SEMICOLON  reduce 19
+
+	mulop  goto 164
+
+
+state 117
+	vterm : vfatt .  (21)
+
+	.  reduce 21
+
+
+state 118
+	condlist : condlist WHEN $$3 OBRCK . pred $$4 CBRCK COLON kexpression SEMICOLON  (14)
+
+	CARET  shift 74
+	D  shift 75
+	ESCL  shift 76
+	DISTANCE  shift 77
+	NUM  shift 78
+	STRING  shift 79
+	OPAR  shift 80
+	.  error
+
+	pred  goto 165
+	pterm  goto 82
+	pfatt  goto 83
+	predop  goto 84
+
+
+state 119
+	mdrate : condlist EVER COLON $$1 . kexpression SEMICOLON  (9)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 166
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 120
+	predop : CARET STRING .  (133)
+
+	.  reduce 133
+
+
+state 121
+	predop : D OPAR . STRING CPAR  (131)
+
+	STRING  shift 167
+	.  error
+
+
+state 122
+	predop : ESCL STRING .  (132)
+
+	.  reduce 132
+
+
+state 123
+	predop : DISTANCE OPAR . STRING $$30 COMMA STRING CPAR  (135)
+
+	STRING  shift 168
+	.  error
+
+
+state 124
+	pred : pred . OR pterm  (117)
+	pfatt : OPAR pred . CPAR  (121)
+
+	CPAR  shift 169
+	OR  shift 125
+	.  error
+
+
+state 125
+	pred : pred OR . pterm  (117)
+
+	CARET  shift 74
+	D  shift 75
+	ESCL  shift 76
+	DISTANCE  shift 77
+	NUM  shift 78
+	STRING  shift 79
+	OPAR  shift 80
+	.  error
+
+	pterm  goto 170
+	pfatt  goto 83
+	predop  goto 84
+
+
+state 126
+	transdom : OBRCK $$15 pred $$16 . CBRCK opzRESET  (62)
+
+	CBRCK  shift 171
+	.  error
+
+
+state 127
+	pterm : pterm AND . pfatt  (119)
+
+	CARET  shift 74
+	D  shift 75
+	ESCL  shift 76
+	DISTANCE  shift 77
+	NUM  shift 78
+	STRING  shift 79
+	OPAR  shift 80
+	.  error
+
+	pfatt  goto 172
+	predop  goto 84
+
+
+state 128
+	relop : NE .  (124)
+
+	.  reduce 124
+
+
+state 129
+	relop : EQ .  (123)
+
+	.  reduce 123
+
+
+state 130
+	relop : LT .  (125)
+
+	.  reduce 125
+
+
+state 131
+	relop : GT .  (127)
+
+	.  reduce 127
+
+
+state 132
+	relop : LE .  (126)
+
+	.  reduce 126
+
+
+state 133
+	relop : GE .  (128)
+
+	.  reduce 128
+
+
+state 134
+	pfatt : predop relop . predop  (122)
+
+	CARET  shift 74
+	D  shift 75
+	ESCL  shift 76
+	DISTANCE  shift 77
+	NUM  shift 78
+	STRING  shift 79
+	.  error
+
+	predop  goto 173
+
+
+state 135
+	dynamic_subclass : $$17 OPAR STRING $$18 COLON . coefficient_type CPAR  (69)
+
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	.  error
+
+	coefficient_type  goto 174
+
+
+state 136
+	namelist : namelist COMMA . STRING  (47)
+
+	STRING  shift 175
+	.  error
+
+
+state 137
+	static : STRING $$13 OBRCS NUM . $$14 MINUS NUM CBRCS  (53)
+	$$14 : .  (52)
+
+	.  reduce 52
+
+	$$14  goto 176
+
+
+state 138
+	static : $$12 OBRCS objects CBRCS .  (50)
+
+	.  reduce 50
+
+
+state 139
+	objects : objects COMMA . STRING  (54)
+
+	STRING  shift 177
+	.  error
+
+
+state 140
+	coefficient_type : VBAR STRING $$28 POINT STRING . $$29 VBAR  (115)
+	$$29 : .  (114)
+
+	.  reduce 114
+
+	$$29  goto 178
+
+
+state 141
+	objmark : objmark plusop coefficient LT oblist . GT  (73)
+	oblist : oblist . COMMA $$19 obj  (75)
+
+	COMMA  shift 93
+	GT  shift 179
+	.  error
+
+
+state 142
+	oblist : oblist COMMA $$19 . obj  (75)
+
+	S  shift 95
+	STRING  shift 96
+	.  error
+
+	obj  goto 180
+
+
+state 143
+	obj : S NUM .  (80)
+
+	.  reduce 80
+
+
+state 144
+	obj : S STRING .  (81)
+
+	.  reduce 81
+
+
+state 145
+	opzguard : OBRCK $$24 pred . $$25 CBRCK  (92)
+	pred : pred . OR pterm  (117)
+	$$25 : .  (91)
+
+	OR  shift 125
+	CBRCK  reduce 91
+
+	$$25  goto 181
+
+
+state 146
+	funlist : coefficient $$21 opzguard LT funzseq . GT  (86)
+	funzseq : funzseq . COMMA $$27 kernel  (97)
+
+	COMMA  shift 182
+	GT  shift 183
+	.  error
+
+
+state 147
+	funzseq : $$26 . kernel  (95)
+	coefficient : .  (110)
+
+	CARET  shift 184
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	S  reduce 110
+	ESCL  reduce 110
+	STRING  reduce 110
+
+	coefficient_type  goto 18
+	coefficient  goto 185
+	kernel  goto 186
+	term  goto 187
+	sterm  goto 188
+	nterm  goto 189
+	xterm  goto 190
+
+
+state 148
+	funlist : funlist plusop $$22 coefficient $$23 . opzguard LT funzseq GT  (89)
+	opzguard : .  (93)
+
+	OBRCK  shift 66
+	LT  reduce 93
+
+	opzguard  goto 191
+
+
+state 149
+	condlist : WHEN $$5 OBRCK pred $$6 . CBRCK COLON kexpression SEMICOLON  (17)
+
+	CBRCK  shift 192
+	.  error
+
+
+state 150
+	vfatt : VBAR STRING . $$7 POINT STRING $$8 VBAR  (33)
+	vfatt : VBAR STRING . VBAR  (34)
+	$$7 : .  (31)
+
+	VBAR  shift 193
+	POINT  reduce 31
+
+	$$7  goto 194
+
+
+state 151
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : OPAR kexpression . CPAR  (27)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	CPAR  shift 195
+	.  error
+
+	plusop  goto 161
+
+
+state 152
+	vfatt : MAXT OPAR . kexpression COMMA kexpression CPAR  (35)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 196
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 153
+	vfatt : MINT OPAR . kexpression COMMA kexpression CPAR  (36)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 197
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 154
+	vfatt : INV OPAR . kexpression CPAR  (22)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 198
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 155
+	vfatt : SQRT OPAR . kexpression CPAR  (23)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 199
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 156
+	vfatt : POW OPAR . kexpression COMMA kexpression CPAR  (24)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 200
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 157
+	vfatt : COMB OPAR . kexpression COMMA kexpression CPAR  (26)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 201
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 158
+	vfatt : FACT OPAR . kexpression CPAR  (25)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 202
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 159
+	vfatt : DIESIS STRING .  (37)
+
+	.  reduce 37
+
+
+state 160
+	mdrate : EVER COLON $$2 kexpression SEMICOLON .  (11)
+
+	.  reduce 11
+
+
+state 161
+	kexpression : kexpression plusop . vterm  (18)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	vterm  goto 203
+	vfatt  goto 117
+
+
+state 162
+	mulop : MOLT .  (40)
+
+	.  reduce 40
+
+
+state 163
+	mulop : DIV .  (41)
+
+	.  reduce 41
+
+
+state 164
+	vterm : vterm mulop . vfatt  (20)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	vfatt  goto 204
+
+
+state 165
+	condlist : condlist WHEN $$3 OBRCK pred . $$4 CBRCK COLON kexpression SEMICOLON  (14)
+	pred : pred . OR pterm  (117)
+	$$4 : .  (13)
+
+	OR  shift 125
+	CBRCK  reduce 13
+
+	$$4  goto 205
+
+
+state 166
+	mdrate : condlist EVER COLON $$1 kexpression . SEMICOLON  (9)
+	kexpression : kexpression . plusop vterm  (18)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	SEMICOLON  shift 206
+	.  error
+
+	plusop  goto 161
+
+
+state 167
+	predop : D OPAR STRING . CPAR  (131)
+
+	CPAR  shift 207
+	.  error
+
+
+state 168
+	predop : DISTANCE OPAR STRING . $$30 COMMA STRING CPAR  (135)
+	$$30 : .  (134)
+
+	.  reduce 134
+
+	$$30  goto 208
+
+
+state 169
+	pfatt : OPAR pred CPAR .  (121)
+
+	.  reduce 121
+
+
+state 170
+	pred : pred OR pterm .  (117)
+	pterm : pterm . AND pfatt  (119)
+
+	AND  shift 127
+	CBRCK  reduce 117
+	CPAR  reduce 117
+	OR  reduce 117
+
+
+state 171
+	transdom : OBRCK $$15 pred $$16 CBRCK . opzRESET  (62)
+	opzRESET : .  (66)
+
+	DIESIS  shift 209
+	$end  reduce 66
+
+	opzRESET  goto 210
+
+
+state 172
+	pterm : pterm AND pfatt .  (119)
+
+	.  reduce 119
+
+
+state 173
+	pfatt : predop relop predop .  (122)
+
+	.  reduce 122
+
+
+state 174
+	dynamic_subclass : $$17 OPAR STRING $$18 COLON coefficient_type . CPAR  (69)
+
+	CPAR  shift 211
+	.  error
+
+
+state 175
+	namelist : namelist COMMA STRING .  (47)
+
+	.  reduce 47
+
+
+state 176
+	static : STRING $$13 OBRCS NUM $$14 . MINUS NUM CBRCS  (53)
+
+	MINUS  shift 212
+	.  error
+
+
+state 177
+	objects : objects COMMA STRING .  (54)
+
+	.  reduce 54
+
+
+state 178
+	coefficient_type : VBAR STRING $$28 POINT STRING $$29 . VBAR  (115)
+
+	VBAR  shift 213
+	.  error
+
+
+state 179
+	objmark : objmark plusop coefficient LT oblist GT .  (73)
+
+	.  reduce 73
+
+
+state 180
+	oblist : oblist COMMA $$19 obj .  (75)
+
+	.  reduce 75
+
+
+state 181
+	opzguard : OBRCK $$24 pred $$25 . CBRCK  (92)
+
+	CBRCK  shift 214
+	.  error
+
+
+state 182
+	funzseq : funzseq COMMA . $$27 kernel  (97)
+	$$27 : .  (96)
+
+	.  reduce 96
+
+	$$27  goto 215
+
+
+state 183
+	funlist : coefficient $$21 opzguard LT funzseq GT .  (86)
+
+	.  reduce 86
+
+
+state 184
+	term : CARET . coefficient STRING  (102)
+	coefficient : .  (110)
+
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	STRING  reduce 110
+
+	coefficient_type  goto 18
+	coefficient  goto 216
+
+
+state 185
+	sterm : coefficient . S NUM  (104)
+	sterm : coefficient . S STRING  (105)
+	sterm : coefficient . S  (106)
+	nterm : coefficient . ESCL STRING  (107)
+	xterm : coefficient . STRING  (108)
+
+	S  shift 217
+	ESCL  shift 218
+	STRING  shift 219
+	.  error
+
+
+state 186
+	funzseq : $$26 kernel .  (95)
+	kernel : kernel . plusop term  (99)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	COMMA  reduce 95
+	GT  reduce 95
+
+	plusop  goto 220
+
+
+state 187
+	kernel : term .  (98)
+
+	.  reduce 98
+
+
+state 188
+	term : sterm .  (100)
+
+	.  reduce 100
+
+
+state 189
+	term : nterm .  (101)
+
+	.  reduce 101
+
+
+state 190
+	term : xterm .  (103)
+
+	.  reduce 103
+
+
+state 191
+	funlist : funlist plusop $$22 coefficient $$23 opzguard . LT funzseq GT  (89)
+
+	LT  shift 221
+	.  error
+
+
+state 192
+	condlist : WHEN $$5 OBRCK pred $$6 CBRCK . COLON kexpression SEMICOLON  (17)
+
+	COLON  shift 222
+	.  error
+
+
+state 193
+	vfatt : VBAR STRING VBAR .  (34)
+
+	.  reduce 34
+
+
+state 194
+	vfatt : VBAR STRING $$7 . POINT STRING $$8 VBAR  (33)
+
+	POINT  shift 223
+	.  error
+
+
+state 195
+	vfatt : OPAR kexpression CPAR .  (27)
+
+	.  reduce 27
+
+
+state 196
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : MAXT OPAR kexpression . COMMA kexpression CPAR  (35)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	COMMA  shift 224
+	.  error
+
+	plusop  goto 161
+
+
+state 197
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : MINT OPAR kexpression . COMMA kexpression CPAR  (36)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	COMMA  shift 225
+	.  error
+
+	plusop  goto 161
+
+
+state 198
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : INV OPAR kexpression . CPAR  (22)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	CPAR  shift 226
+	.  error
+
+	plusop  goto 161
+
+
+state 199
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : SQRT OPAR kexpression . CPAR  (23)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	CPAR  shift 227
+	.  error
+
+	plusop  goto 161
+
+
+state 200
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : POW OPAR kexpression . COMMA kexpression CPAR  (24)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	COMMA  shift 228
+	.  error
+
+	plusop  goto 161
+
+
+state 201
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : COMB OPAR kexpression . COMMA kexpression CPAR  (26)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	COMMA  shift 229
+	.  error
+
+	plusop  goto 161
+
+
+state 202
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : FACT OPAR kexpression . CPAR  (25)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	CPAR  shift 230
+	.  error
+
+	plusop  goto 161
+
+
+state 203
+	kexpression : kexpression plusop vterm .  (18)
+	vterm : vterm . mulop vfatt  (20)
+
+	MOLT  shift 162
+	DIV  shift 163
+	MINUS  reduce 18
+	PLUS  reduce 18
+	COMMA  reduce 18
+	CPAR  reduce 18
+	SEMICOLON  reduce 18
+
+	mulop  goto 164
+
+
+state 204
+	vterm : vterm mulop vfatt .  (20)
+
+	.  reduce 20
+
+
+state 205
+	condlist : condlist WHEN $$3 OBRCK pred $$4 . CBRCK COLON kexpression SEMICOLON  (14)
+
+	CBRCK  shift 231
+	.  error
+
+
+state 206
+	mdrate : condlist EVER COLON $$1 kexpression SEMICOLON .  (9)
+
+	.  reduce 9
+
+
+state 207
+	predop : D OPAR STRING CPAR .  (131)
+
+	.  reduce 131
+
+
+state 208
+	predop : DISTANCE OPAR STRING $$30 . COMMA STRING CPAR  (135)
+
+	COMMA  shift 232
+	.  error
+
+
+state 209
+	opzRESET : DIESIS .  (65)
+
+	.  reduce 65
+
+
+state 210
+	transdom : OBRCK $$15 pred $$16 CBRCK opzRESET .  (62)
+
+	.  reduce 62
+
+
+state 211
+	dynamic_subclass : $$17 OPAR STRING $$18 COLON coefficient_type CPAR .  (69)
+
+	.  reduce 69
+
+
+state 212
+	static : STRING $$13 OBRCS NUM $$14 MINUS . NUM CBRCS  (53)
+
+	NUM  shift 233
+	.  error
+
+
+state 213
+	coefficient_type : VBAR STRING $$28 POINT STRING $$29 VBAR .  (115)
+
+	.  reduce 115
+
+
+state 214
+	opzguard : OBRCK $$24 pred $$25 CBRCK .  (92)
+
+	.  reduce 92
+
+
+state 215
+	funzseq : funzseq COMMA $$27 . kernel  (97)
+	coefficient : .  (110)
+
+	CARET  shift 184
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	S  reduce 110
+	ESCL  reduce 110
+	STRING  reduce 110
+
+	coefficient_type  goto 18
+	coefficient  goto 185
+	kernel  goto 234
+	term  goto 187
+	sterm  goto 188
+	nterm  goto 189
+	xterm  goto 190
+
+
+state 216
+	term : CARET coefficient . STRING  (102)
+
+	STRING  shift 235
+	.  error
+
+
+state 217
+	sterm : coefficient S . NUM  (104)
+	sterm : coefficient S . STRING  (105)
+	sterm : coefficient S .  (106)
+
+	NUM  shift 236
+	STRING  shift 237
+	MINUS  reduce 106
+	PLUS  reduce 106
+	COMMA  reduce 106
+	GT  reduce 106
+
+
+state 218
+	nterm : coefficient ESCL . STRING  (107)
+
+	STRING  shift 238
+	.  error
+
+
+state 219
+	xterm : coefficient STRING .  (108)
+
+	.  reduce 108
+
+
+state 220
+	kernel : kernel plusop . term  (99)
+	coefficient : .  (110)
+
+	CARET  shift 184
+	VBAR  shift 14
+	NUM  shift 15
+	UNDERSCORE  shift 16
+	S  reduce 110
+	ESCL  reduce 110
+	STRING  reduce 110
+
+	coefficient_type  goto 18
+	coefficient  goto 185
+	term  goto 239
+	sterm  goto 188
+	nterm  goto 189
+	xterm  goto 190
+
+
+state 221
+	funlist : funlist plusop $$22 coefficient $$23 opzguard LT . funzseq GT  (89)
+	$$26 : .  (94)
+
+	.  reduce 94
+
+	funzseq  goto 240
+	$$26  goto 147
+
+
+state 222
+	condlist : WHEN $$5 OBRCK pred $$6 CBRCK COLON . kexpression SEMICOLON  (17)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 241
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 223
+	vfatt : VBAR STRING $$7 POINT . STRING $$8 VBAR  (33)
+
+	STRING  shift 242
+	.  error
+
+
+state 224
+	vfatt : MAXT OPAR kexpression COMMA . kexpression CPAR  (35)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 243
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 225
+	vfatt : MINT OPAR kexpression COMMA . kexpression CPAR  (36)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 244
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 226
+	vfatt : INV OPAR kexpression CPAR .  (22)
+
+	.  reduce 22
+
+
+state 227
+	vfatt : SQRT OPAR kexpression CPAR .  (23)
+
+	.  reduce 23
+
+
+state 228
+	vfatt : POW OPAR kexpression COMMA . kexpression CPAR  (24)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 245
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 229
+	vfatt : COMB OPAR kexpression COMMA . kexpression CPAR  (26)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 246
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 230
+	vfatt : FACT OPAR kexpression CPAR .  (25)
+
+	.  reduce 25
+
+
+state 231
+	condlist : condlist WHEN $$3 OBRCK pred $$4 CBRCK . COLON kexpression SEMICOLON  (14)
+
+	COLON  shift 247
+	.  error
+
+
+state 232
+	predop : DISTANCE OPAR STRING $$30 COMMA . STRING CPAR  (135)
+
+	STRING  shift 248
+	.  error
+
+
+state 233
+	static : STRING $$13 OBRCS NUM $$14 MINUS NUM . CBRCS  (53)
+
+	CBRCS  shift 249
+	.  error
+
+
+state 234
+	funzseq : funzseq COMMA $$27 kernel .  (97)
+	kernel : kernel . plusop term  (99)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	COMMA  reduce 97
+	GT  reduce 97
+
+	plusop  goto 220
+
+
+state 235
+	term : CARET coefficient STRING .  (102)
+
+	.  reduce 102
+
+
+state 236
+	sterm : coefficient S NUM .  (104)
+
+	.  reduce 104
+
+
+state 237
+	sterm : coefficient S STRING .  (105)
+
+	.  reduce 105
+
+
+state 238
+	nterm : coefficient ESCL STRING .  (107)
+
+	.  reduce 107
+
+
+state 239
+	kernel : kernel plusop term .  (99)
+
+	.  reduce 99
+
+
+state 240
+	funlist : funlist plusop $$22 coefficient $$23 opzguard LT funzseq . GT  (89)
+	funzseq : funzseq . COMMA $$27 kernel  (97)
+
+	COMMA  shift 182
+	GT  shift 250
+	.  error
+
+
+state 241
+	condlist : WHEN $$5 OBRCK pred $$6 CBRCK COLON kexpression . SEMICOLON  (17)
+	kexpression : kexpression . plusop vterm  (18)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	SEMICOLON  shift 251
+	.  error
+
+	plusop  goto 161
+
+
+state 242
+	vfatt : VBAR STRING $$7 POINT STRING . $$8 VBAR  (33)
+	$$8 : .  (32)
+
+	.  reduce 32
+
+	$$8  goto 252
+
+
+state 243
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : MAXT OPAR kexpression COMMA kexpression . CPAR  (35)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	CPAR  shift 253
+	.  error
+
+	plusop  goto 161
+
+
+state 244
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : MINT OPAR kexpression COMMA kexpression . CPAR  (36)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	CPAR  shift 254
+	.  error
+
+	plusop  goto 161
+
+
+state 245
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : POW OPAR kexpression COMMA kexpression . CPAR  (24)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	CPAR  shift 255
+	.  error
+
+	plusop  goto 161
+
+
+state 246
+	kexpression : kexpression . plusop vterm  (18)
+	vfatt : COMB OPAR kexpression COMMA kexpression . CPAR  (26)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	CPAR  shift 256
+	.  error
+
+	plusop  goto 161
+
+
+state 247
+	condlist : condlist WHEN $$3 OBRCK pred $$4 CBRCK COLON . kexpression SEMICOLON  (14)
+
+	VBAR  shift 102
+	NUM  shift 103
+	STRING  shift 104
+	OPAR  shift 105
+	MAXT  shift 106
+	MINT  shift 107
+	INV  shift 108
+	SQRT  shift 109
+	POW  shift 110
+	COMB  shift 111
+	FACT  shift 112
+	REALNUM  shift 113
+	DIESIS  shift 114
+	.  error
+
+	kexpression  goto 257
+	vterm  goto 116
+	vfatt  goto 117
+
+
+state 248
+	predop : DISTANCE OPAR STRING $$30 COMMA STRING . CPAR  (135)
+
+	CPAR  shift 258
+	.  error
+
+
+state 249
+	static : STRING $$13 OBRCS NUM $$14 MINUS NUM CBRCS .  (53)
+
+	.  reduce 53
+
+
+state 250
+	funlist : funlist plusop $$22 coefficient $$23 opzguard LT funzseq GT .  (89)
+
+	.  reduce 89
+
+
+state 251
+	condlist : WHEN $$5 OBRCK pred $$6 CBRCK COLON kexpression SEMICOLON .  (17)
+
+	.  reduce 17
+
+
+state 252
+	vfatt : VBAR STRING $$7 POINT STRING $$8 . VBAR  (33)
+
+	VBAR  shift 259
+	.  error
+
+
+state 253
+	vfatt : MAXT OPAR kexpression COMMA kexpression CPAR .  (35)
+
+	.  reduce 35
+
+
+state 254
+	vfatt : MINT OPAR kexpression COMMA kexpression CPAR .  (36)
+
+	.  reduce 36
+
+
+state 255
+	vfatt : POW OPAR kexpression COMMA kexpression CPAR .  (24)
+
+	.  reduce 24
+
+
+state 256
+	vfatt : COMB OPAR kexpression COMMA kexpression CPAR .  (26)
+
+	.  reduce 26
+
+
+state 257
+	condlist : condlist WHEN $$3 OBRCK pred $$4 CBRCK COLON kexpression . SEMICOLON  (14)
+	kexpression : kexpression . plusop vterm  (18)
+
+	MINUS  shift 43
+	PLUS  shift 44
+	SEMICOLON  shift 260
+	.  error
+
+	plusop  goto 161
+
+
+state 258
+	predop : DISTANCE OPAR STRING $$30 COMMA STRING CPAR .  (135)
+
+	.  reduce 135
+
+
+state 259
+	vfatt : VBAR STRING $$7 POINT STRING $$8 VBAR .  (33)
+
+	.  reduce 33
+
+
+state 260
+	condlist : condlist WHEN $$3 OBRCK pred $$4 CBRCK COLON kexpression SEMICOLON .  (14)
+
+	.  reduce 14
+
+
+57 terminals, 69 nonterminals
+136 grammar rules, 261 states

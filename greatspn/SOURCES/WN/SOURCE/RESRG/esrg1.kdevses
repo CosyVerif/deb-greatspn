@@ -1,0 +1,77 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE KDevPrjSession>
+<KDevPrjSession>
+ <DocsAndViews NumberOfDocuments="9" >
+  <Doc0 NumberOfViews="1" URL="file:///home/marco/ESRG%2BDSRG/greatspn/SOURCES/WN/SOURCE/RESRG/src/esrg1.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:///home/marco/MDD/greatspn/SOURCES/WN/SOURCE/SHARED/mdd.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:///home/marco/MDD/greatspn/SOURCES/WN/SOURCE/SHARED/mdd.h" >
+   <View0 Encoding="" Type="Source" />
+  </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/marco/C%2B%2B/MDWN/src/general.cpp" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/marco/MDD/greatspn/SOURCES/WN/SOURCE/REACHAB/stack.c" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///home/marco/ESRG%2BDSRG/greatspn/SOURCES/WN/SOURCE/RESRG/src/interface.cpp" >
+   <View0 Encoding="" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/marco/MDD/greatspn/SOURCES/WN/SOURCE/SHARED/main.c" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:///home/marco/MDD/greatspn/SOURCES/WN/EDIT/makefile.rg" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/marco/ESRG%2BDSRG/greatspn/SOURCES/WN/SOURCE/REACHAB/graph.c" >
+   <View0 Encoding="" line="1166" Type="Source" />
+  </Doc8>
+ </DocsAndViews>
+ <pluginList>
+  <kdevdebugger>
+   <breakpointList/>
+   <showInternalCommands value="0" />
+  </kdevdebugger>
+  <kdevastyle>
+   <Extensions ext="*.cpp *.h,*.c *.h,*.cxx *.hxx,*.c++ *.h++,*.cc *.hh,*.C *.H,*.diff,*.inl,*.java,*.moc,*.patch,*.tlh,*.xpm" />
+   <AStyle IndentPreprocessors="0" FillCount="4" PadParenthesesOut="1" IndentNamespaces="1" IndentLabels="1" Fill="Tabs" MaxStatement="40" Brackets="Break" MinConditional="-1" IndentBrackets="0" PadParenthesesUn="1" BlockBreak="0" KeepStatements="1" KeepBlocks="1" BlockIfElse="0" IndentSwitches="1" PadOperators="0" FStyle="ANSI" IndentCases="0" FillEmptyLines="0" BracketsCloseHeaders="0" BlockBreakAll="0" PadParenthesesIn="1" IndentClasses="1" IndentBlocks="0" FillForce="0" />
+  </kdevastyle>
+  <kdevbookmarks>
+   <bookmarks>
+    <bookmark url="/usr/local/GreatSPN/SOURCES/WN/SOLVE/swn_stndrd.c" >
+     <mark line="1088" />
+    </bookmark>
+    <bookmark url="/home/marco/ESRG+DSRG/esrgctmc/src/interface.cpp" >
+     <mark line="2720" />
+     <mark line="666" />
+     <mark line="2487" />
+     <mark line="1586" />
+     <mark line="3529" />
+     <mark line="3566" />
+     <mark line="2175" />
+    </bookmark>
+    <bookmark url="/home/marco/ESRG+DSRG/greatspn/SOURCES/WN/SOURCE/REACHAB/graph.c" >
+     <mark line="605" />
+     <mark line="1185" />
+    </bookmark>
+    <bookmark url="/home/marco/MDD/greatspn/SOURCES/WN/SOURCE/REACHAB/graph.c" >
+     <mark line="154" />
+     <mark line="1379" />
+     <mark line="1583" />
+    </bookmark>
+    <bookmark url="/home/marco/MDD/greatspn/SOURCES/WN/SOURCE/REACHAB/rg_files.c" >
+     <mark line="159" />
+    </bookmark>
+   </bookmarks>
+  </kdevbookmarks>
+  <kdevvalgrind>
+   <executable path="" params="" />
+   <valgrind path="" params="" />
+   <calltree path="" params="" />
+   <kcachegrind path="" />
+  </kdevvalgrind>
+ </pluginList>
+</KDevPrjSession>

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+all_del=1
+
+if [ "$1" = "" ]
+then
+	echo "Use RMNET [-n] netdirectory/netname"
+	exit 1
+fi
+
+
+if [ "$2" != "" ]
+then
+	if [ "$1" = "-n" ]
+		then 
+		all_del=0
+		fi
+fi
+
+
+if [ "$all_del" = 1 ]
+	then 
+	ls $1.* > _Temp_; cat _Temp_ | gawk '!/\.net$/ && !/\.def$/ && !/\.gd$/ && !/\.ind$/ && !/\.ctl$/ && !/\.dis$/ && !/\.reward$/ && !/\.tgspn$/ && !/\.automaton$/{print "/bin/rm -f " $0}'> _Temp_Command; /bin/bash -f _Temp_Command	
+	rm -f _Temp_Command _Temp_
+else
+	rm -f $2.* 	
+fi
