@@ -39,10 +39,10 @@ unexport CURDIR
 makeall: greatspn algebra multisolve 
 
 greatspn:
-	-cd contrib && $(MAKE) -e -f Makefile.Linux
-	-cd gsrc2   && $(MAKE) -e -f Makefile.all
-	-cd simsrc2 && $(MAKE) -e -f Makefile.all
-	-cd WN      && $(MAKE) -e -f Makefile.all
+	-cd contrib && $(MAKE) -f Makefile.Linux
+	-cd gsrc2   && $(MAKE) -f Makefile.all
+	-cd simsrc2 && $(MAKE) -f Makefile.all
+	-cd WN      && $(MAKE) -f Makefile.all
 
 
 algebra: ../$(GSPN2BINS)/algebra_obj ../$(GSPN2BINS)/remove_obj scripts 
